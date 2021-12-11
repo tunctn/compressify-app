@@ -1,0 +1,12 @@
+appId: com.tunc-co.bulk-image-compressor
+productName: Bulk Image Compressor
+copyright: Copyright © 2021 Tunç Türkmen
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null

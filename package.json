@@ -1,0 +1,42 @@
+{
+  "private": true,
+  "name": "bulk-vacuumer",
+  "description": "Compress your images in a fast way",
+  "version": "1.0.0",
+  "author": "Tunç Türkmen <t@tunc.co>",
+  "main": "app/background.js",
+  "scripts": {
+    "dev": "nextron",
+    "build": "nextron build",
+    "build:win64": "nextron build --win --x64",
+    "build:mac": "nextron build --mac --x64",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "buffer-image-size": "^0.6.4",
+    "cors": "^2.8.5",
+    "dayjs": "^1.10.7",
+    "dcraw": "^1.0.3",
+    "electron-serve": "^1.1.0",
+    "electron-store": "^8.0.1",
+    "express": "^4.17.1",
+    "file-saver": "^2.0.5",
+    "fluent-ffmpeg": "^2.1.2",
+    "handbrake-js": "^6.0.0",
+    "js-cookie": "^3.0.1",
+    "jszip": "^3.7.1",
+    "multer": "^1.4.4",
+    "next-connect": "^0.11.0",
+    "react-dropzone": "^11.4.2",
+    "sharp": "^0.29.3"
+  },
+  "devDependencies": {
+    "electron": "^15.0.0",
+    "electron-builder": "^22.11.7",
+    "next": "^11.1.2",
+    "nextron": "^7.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
