@@ -18,6 +18,8 @@ const command = ffmpeg();
 const expressApp = express();
 const upload = multer();
 
+require("@electron/remote/main").initialize();
+
 const corsOptions = {
   origin: "*",
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -112,8 +114,6 @@ if (isProd) {
     minWidth: 770,
     minHeight: 720,
   });
-
-  // mainWindow.setResizable(false)
 
   if (isProd) {
     await mainWindow.loadURL("app://./home.html");

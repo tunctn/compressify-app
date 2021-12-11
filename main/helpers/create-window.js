@@ -80,6 +80,8 @@ export default function createWindow(windowName, options) {
     },
   });
 
+  require("@electron/remote/main").enable(win.webContents);
+
   win.on("close", saveState);
 
   return win;
