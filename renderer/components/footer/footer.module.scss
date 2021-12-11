@@ -1,0 +1,15 @@
+.footer {
+  padding: var(--container-padding);
+  padding-top: 0px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #565656;
+
+  a {
+    color: #565656;
+    &:hover {
+      color: #878787;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+appId: com.tunc-co.compressify-app
+productName: Compressify.app
+copyright: Copyright © 2021 Tunç Türkmen
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null
