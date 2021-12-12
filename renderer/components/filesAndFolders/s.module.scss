@@ -1,0 +1,59 @@
+.ft {
+  line-height: 1.5;
+  margin-top: 10px;
+
+  max-height: calc(100vh - 200px);
+  overflow-y: scroll;
+
+  &__file {
+    display: flex;
+    align-items: center;
+  }
+
+  &__labelspan {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 5px;
+  }
+
+  &__folder {
+    .folder {
+      &__label {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  &__foldertogglebutton {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__line {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: none;
+    text-align: left;
+    border: none;
+    color: #a0a0a0;
+    height: 25px;
+    border-radius: 4px;
+
+    &:focus {
+      background: #7354b5;
+    }
+  }
+  &__even {
+    background-color: #282828;
+  }
+
+  &__collapsible {
+    overflow: hidden;
+  }
+}

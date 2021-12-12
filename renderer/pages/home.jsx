@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import FilesAndFolders from "../components/filesAndFolders";
 import Footer from "../components/footer";
@@ -11,6 +11,9 @@ export default function Home() {
   useEffect(() => {
     window.document.body.setAttribute("style", "-webkit-app-region: drag;");
   }, []);
+
+  const [filePaths, setFilePaths] = useState([]);
+
   return (
     <div className="app">
       <Head>
@@ -22,7 +25,10 @@ export default function Home() {
       <main className="container main-page">
         <div className="left col">
           <div className="files-and-folders">
-            <FilesAndFolders />
+            <FilesAndFolders
+              setFilePaths={setFilePaths}
+              filePaths={filePaths}
+            />
           </div>
           <div className="process">
             <Process />

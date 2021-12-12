@@ -1,5 +1,6 @@
 import fs from "fs";
-
+import getFolderTree from "./getFolderTree";
+import getFilePaths from "./getFilePaths";
 
 export const replaceAll = (search, replacement) => {
   var target = this;
@@ -42,3 +43,5 @@ export const decideQuality = (byte) => {
 
   return 30;
 };
+
+export { getFolderTree, getFilePaths };

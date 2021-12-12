@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "dayjs": "^1.10.7",
     "dcraw": "^1.0.3",
+    "directory-tree": "^3.0.1",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.0.1",
     "express": "^4.17.1",

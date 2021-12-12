@@ -1,6 +1,12 @@
+import { useState } from "react";
 import s from "./s.module.scss";
 
-const FilesAndFolders = () => {
+import FolderTree from "./folderTree";
+import { getFilePaths } from "../../src/helpers";
+
+import directoryTree from "directory-tree";
+
+const FilesAndFolders = ({ setFilePaths, filePaths }) => {
   const handleAdd = async (type) => {
     const dialog = window.Electron.dialog;
 
@@ -20,8 +26,9 @@ const FilesAndFolders = () => {
         break;
     }
 
-    const paths = await dialog
+    const dialogPaths = await dialog
       .showOpenDialog({
+        buttonLabel: `Add ${type}`,
         properties: properties,
         filters: [
           {
@@ -34,6 +41,13 @@ const FilesAndFolders = () => {
       })
       .then((result) => result.filePaths)
       .catch(console.log);
+
+    const paths = getFilePaths(dialogPaths);
+
+    let combined = [...filePaths, ...paths];
+    let unique = [...new Set(combined)];
+
+    setFilePaths(unique);
   };
 
   return (
@@ -42,8 +56,12 @@ const FilesAndFolders = () => {
         <div className="area-title">Files and folders</div>
         <div className={s.buttons}>
           <button onClick={() => handleAdd("folders")}>Add folders</button>
-          <button onClick={() => handleAdd("files")}>Add files</button> /
+          <button onClick={() => handleAdd("files")}>Add files</button>
+          <button onClick={() => setFilePaths([])}>Clear all</button>
         </div>
+      </div>
+      <div className={s.foldertree_holder}>
+        <FolderTree setFilePaths={setFilePaths} filePaths={filePaths} />
       </div>
     </div>
   );
