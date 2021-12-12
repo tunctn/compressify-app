@@ -54,8 +54,19 @@ const getFilePaths = (folderPaths) => {
     return result;
   });
 
-  paths = paths.flat(1);
-  paths = paths.sort().map((path) => normalizePath(path));
+  paths = paths
+    .flat(1)
+    .sort()
+    .filter((p) => {
+      let stats = fs.lstatSync(p);
+      if (stats.isDirectory()) return p;
+
+      let ext = path.extname(p);
+      if (!ext) return false;
+      return p;
+    })
+    .map((path) => normalizePath(path));
+
   return paths;
 };
 

@@ -1,22 +1,11 @@
 import fs from "fs";
 import getFolderTree from "./getFolderTree";
 import getFilePaths from "./getFilePaths";
+import formatBytes from "./formatBytes";
 
 export const replaceAll = (search, replacement) => {
   var target = this;
   return target.replace(new RegExp(search, "g"), replacement);
-};
-
-export const formatBytes = (bytes, decimals = 2) => {
-  if (bytes === 0) return "0 Bytes";
-
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
 };
 
 export const getFilesizeInBytes = (file) => {
@@ -44,4 +33,4 @@ export const decideQuality = (byte) => {
   return 30;
 };
 
-export { getFolderTree, getFilePaths };
+export { getFolderTree, getFilePaths, formatBytes };

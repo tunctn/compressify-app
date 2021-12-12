@@ -32,6 +32,7 @@ function arrangeIntoTree(branches) {
           return null;
         }
 
+        let size = stats.size;
         let type = stats.isDirectory()
           ? "folder"
           : path.extname(originalpath).toLowerCase();
@@ -44,6 +45,7 @@ function arrangeIntoTree(branches) {
           type: type,
           level: j,
           index: realIndex,
+          size: size,
           children: [],
         };
 
@@ -69,6 +71,31 @@ function arrangeIntoTree(branches) {
   }
 }
 
+const findGrandParent = (array) => {
+  let grandparent;
+
+  const walk = (tree) => {
+    const parent = [...tree];
+    return parent.find((branches) => {
+      let found = false;
+      branches.children.forEach((child) => {
+        if (child.type !== "folder") {
+          found = true;
+          return branches;
+        }
+      });
+      if (found) {
+        grandparent = branches;
+        return branches;
+      } else {
+        walk(branches.children);
+      }
+    });
+  };
+  walk(array);
+  return grandparent;
+};
+
 const getFolderTree = (array) => {
   if (array.length === 0) return { baselevel: 0, tree: [] };
 
@@ -79,13 +106,8 @@ const getFolderTree = (array) => {
 
   let tree = arrangeIntoTree(array);
 
-  let base = array.reduce((prev, next) =>
-    prev.length > next.length ? next : prev
-  );
-  base.splice(-1);
-  // let basepath = base.join("/");
-  let baselevel = base.length - 1;
-  // let baselevel = 0;
+  let grandparent = findGrandParent(tree);
+  let baselevel = grandparent.level - 1;
 
   return { baselevel, tree };
 };

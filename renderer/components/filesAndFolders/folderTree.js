@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import s from "./s.module.scss";
-import { getFolderTree } from "../../src/helpers";
+import { getFolderTree, formatBytes } from "../../src/helpers";
 import { ChevronBottom, ChevronRight } from "../icons";
 
 const folderLeftMargin = 20;
@@ -30,10 +30,10 @@ const handleRemove = (set, path) => {
   // });
 };
 
-const File = ({ name, set, path, index, level }) => {
-  let ext = name.split(".")[1];
-  console.log(level);
+const File = ({ name, set, path, index, level, type, size }) => {
+  let ext = type ? `${type.split(".")[1]}` : "?";
 
+  const handleDoubleClick = () => {};
   return (
     <button
       className={`
@@ -43,10 +43,15 @@ const File = ({ name, set, path, index, level }) => {
 			`}
       style={{ paddingLeft: folderLeftMargin * level + "px" }}
       onClick={() => handleRemove(set, path)}
+      onDoubleClick={handleDoubleClick}
     >
-      <span className={s.ft__labelspan}>
-        {level} {name} ({ext})
-      </span>
+      <span className={s.ft__labelspan}>{name}</span>
+      <div className={s.ft__file__right}>
+        <span className={s.ft__mutedtext}>{formatBytes(size)}</span>
+        <span className={s.ft__extension} data-filetype={ext}>
+          {ext.toUpperCase()}
+        </span>
+      </div>
     </button>
   );
 };
@@ -62,7 +67,16 @@ const Collapsible = ({ isOpen, children }) => {
   );
 };
 
-const Folder = ({ name, set, path, children, branches, index, level }) => {
+const Folder = ({
+  name,
+  set,
+  path,
+  children,
+  branches,
+  index,
+  level,
+  size,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleToggle = (e) => {
@@ -79,18 +93,23 @@ const Folder = ({ name, set, path, children, branches, index, level }) => {
           className={`
 						${s.ft__line}
 						${index % 2 ? s.ft__even : ""}
-						${s.ft__folder__label}
 					`}
           style={{ paddingLeft: folderLeftMargin * level + "px" }}
         >
           <div className={s.ft__labelspan}>
-            <button
-              className={`${s.ft__foldertogglebutton} reset-button`}
-              onClick={handleToggle}
-            >
-              {isOpen ? <ChevronBottom /> : <ChevronRight />}
-            </button>
-            {name}
+            <div className={s.ft__folder__label}>
+              <div className={s.ft__folder__left}>
+                <span
+                  className={`${s.ft__foldertogglebutton} reset-button`}
+                  onClick={handleToggle}
+                >
+                  {isOpen ? <ChevronBottom /> : <ChevronRight />}
+                </span>
+                {name}
+              </div>
+
+              {/* <span className={s.ft__mutedtext}>{branches.length} items</span> */}
+            </div>
           </div>
         </button>
       )}
@@ -106,7 +125,6 @@ Tree.Folder = Folder;
 const TreeRecursive = ({ data, set, baselevel }) => {
   return data.map((item, index) => {
     let level = item.level - baselevel - 1;
-    console.log(item.level - baselevel);
     if (item.type === "folder") {
       return (
         <Folder
@@ -116,6 +134,7 @@ const TreeRecursive = ({ data, set, baselevel }) => {
           level={level}
           key={index}
           set={set}
+          size={item.size}
           index={item.index}
         >
           {/* Call the <TreeRecursive /> component with the current item.children */}
@@ -129,8 +148,10 @@ const TreeRecursive = ({ data, set, baselevel }) => {
           path={item.path}
           level={level}
           key={index}
+          type={item.type}
           index={item.index}
           set={set}
+          size={item.size}
         />
       );
     }
