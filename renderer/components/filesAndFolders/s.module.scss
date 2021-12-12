@@ -64,6 +64,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 500;
   }
 
   &__folder {
@@ -73,10 +74,13 @@
       gap: 8px;
     }
 
-    &__label {
+    &__labelholder {
       width: 100%;
       flex: 1;
       justify-content: space-between;
+    }
+
+    &__label {
     }
   }
 

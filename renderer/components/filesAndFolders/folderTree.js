@@ -1,6 +1,8 @@
+import electron from "electron";
 import { useState } from "react";
 
-import s from "./s.module.scss";
+// import s from "./s.module.scss";
+const s = {};
 import { getFolderTree, formatBytes } from "../../src/helpers";
 import { ChevronBottom, ChevronRight } from "../icons";
 
@@ -33,7 +35,9 @@ const handleRemove = (set, path) => {
 const File = ({ name, set, path, index, level, type, size }) => {
   let ext = type ? `${type.split(".")[1]}` : "?";
 
-  const handleDoubleClick = () => {};
+  const handleDoubleClick = () => {
+    electron.shell.openPath(path);
+  };
   return (
     <button
       className={`
@@ -97,7 +101,7 @@ const Folder = ({
           style={{ paddingLeft: folderLeftMargin * level + "px" }}
         >
           <div className={s.ft__labelspan}>
-            <div className={s.ft__folder__label}>
+            <div className={s.ft__folder__labelholder}>
               <div className={s.ft__folder__left}>
                 <span
                   className={`${s.ft__foldertogglebutton} reset-button`}
@@ -105,7 +109,7 @@ const Folder = ({
                 >
                   {isOpen ? <ChevronBottom /> : <ChevronRight />}
                 </span>
-                {name}
+                <span className={s.ft__folder__label}>{name}</span>
               </div>
 
               {/* <span className={s.ft__mutedtext}>{branches.length} items</span> */}

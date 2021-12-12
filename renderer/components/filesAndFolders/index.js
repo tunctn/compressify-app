@@ -1,9 +1,10 @@
 import { useState } from "react";
-import s from "./s.module.scss";
+// import s from "./s.module.scss";
 
 import FolderTree from "./folderTree";
 import { getFilePaths } from "../../src/helpers";
 
+const s = {};
 const FilesAndFolders = ({ setFilePaths, filePaths }) => {
   const handleAdd = async (type) => {
     const dialog = window.Electron.dialog;

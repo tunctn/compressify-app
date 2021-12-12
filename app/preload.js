@@ -1,4 +1,2 @@
-const dialog = require("@electron/remote").dialog;
-
-window.Electron = {};
-window.Electron.dialog = dialog;
+(()=>{var r={1837:r=>{"use strict";r.exports=require("@electron/remote")}},e={};function o(t){var n=e[t];if(void 0!==n)return n.exports;var i=e[t]={exports:{}};return r[t](i,i.exports,o),i.exports}(()=>{const{dialog:r}=o(1837);window.Electron={},window.Electron.dialog=r})(),module.exports={}})();
+//# sourceMappingURL=preload.js.map

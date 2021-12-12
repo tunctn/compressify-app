@@ -1,6 +1,8 @@
 import { screen, BrowserWindow } from "electron";
 import Store from "electron-store";
+import path from "path";
 
+console.log(__dirname);
 export default function createWindow(windowName, options) {
   const key = "window-state";
   const name = `window-state-${windowName}`;
@@ -75,7 +77,9 @@ export default function createWindow(windowName, options) {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
-      preload: __dirname + "/preload.js",
+      // preload: __dirname + "/preload.js",
+      preload: path.join(__dirname, "/preload.js"),
+
       ...options.webPreferences,
     },
   });

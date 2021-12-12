@@ -1,6 +1,7 @@
 import { shell } from "electron";
 
-import s from "./footer.module.scss";
+// import s from "./footer.module.scss";
+const s = {};
 const Footer = () => {
   const handleExternal = (link) => shell.openExternal(link);
 
