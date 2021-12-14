@@ -1,18 +1,21 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import FilesAndFolders from "../components/filesAndFolders";
 import Footer from "../components/footer";
-import Process from "../components/process";
+import Progress from "../components/progress";
 import Settings from "../components/settings";
 import Start from "../components/start";
 
-export default function Home() {
-  useEffect(() => {
-    window.document.body.setAttribute("style", "-webkit-app-region: drag;");
-  }, []);
+const defaultProgress = {
+  started: false,
+  startedAt: null,
+  cancelled: false,
+  finishedOn: null,
+};
 
+export default function Home() {
   const [filePaths, setFilePaths] = useState([]);
+  const [progress, setProgress] = useState(defaultProgress);
 
   return (
     <div className="app">
@@ -30,8 +33,8 @@ export default function Home() {
               filePaths={filePaths}
             />
           </div>
-          <div className="process">
-            <Process />
+          <div className="progress-area">
+            <Progress />
           </div>
         </div>
         <div className="right col">
@@ -39,7 +42,12 @@ export default function Home() {
             <Settings />
           </div>
           <div className="start">
-            <Start />
+            <Start
+              files={filePaths}
+              progress={progress}
+              setProgress={setProgress}
+              defaultProgress={defaultProgress}
+            />
           </div>
         </div>
       </main>

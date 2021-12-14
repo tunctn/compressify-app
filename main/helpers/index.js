@@ -1,13 +1,5 @@
-import createWindow from "./create-window";
-import decideQuality from "./decideQuality";
-import formatBytes from "./formatBytes";
-import getFileSizeInBytes from "./getFileSizeInBytes";
-import toBase64 from "./toBase64";
+import createWindow from "./createWindow";
+import getFileSize from "./getFileSize";
+import startCompressing from "./startCompressing";
 
-export {
-  decideQuality,
-  formatBytes,
-  getFileSizeInBytes,
-  toBase64,
-  createWindow,
-};
+export { getFileSize, createWindow, startCompressing };

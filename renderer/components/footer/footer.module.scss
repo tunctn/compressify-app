@@ -1,13 +1,22 @@
 .footer {
-  padding: var(--container-padding);
-  padding-top: 0px;
+  height: 36px;
   display: flex;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
   justify-content: space-between;
   font-size: 11px;
   color: #565656;
 
-  a {
+  button {
+    margin-top: 3px;
+    cursor: pointer;
+    padding: 0;
+    padding-bottom: 4px;
     color: #565656;
+    border-bottom: 1px solid #292929;
     &:hover {
       color: #878787;
     }

@@ -7,12 +7,18 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-#__next {
+#__next,
+.app {
   height: inherit;
+}
+$footer-height: 36px;
+
+.app {
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 body {
-  padding-top: 20px;
   background: var(--colors-gray1);
   -webkit-font-smoothing: antialiased;
   color: rgba(255, 255, 255, 0.68);
@@ -48,15 +54,39 @@ a,
 .reset-button:hover {
   color: inherit;
 }
-
+button {
+  -webkit-app-region: no-drag !important;
+}
 .main-page {
+  padding-top: 30px;
   display: flex;
   gap: var(--container-padding);
+  height: calc(100% - #{$footer-height});
+  padding-bottom: 0;
+
   .left {
     flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .files-and-folders {
+      height: calc(100% - 252px);
+    }
+    .progress-area {
+      height: 240px;
+    }
   }
   .right {
+    height: 100%;
     width: 280px;
+
+    .settings {
+      height: calc(100% - 56px);
+    }
+    .start {
+      height: 44px;
+    }
   }
 
   .col {
@@ -71,11 +101,33 @@ a,
   box-shadow: 0 0 0 1px #282828;
   border-radius: 8px;
   padding: 12px;
+  height: 100%;
   -webkit-app-region: no-drag !important;
+  display: flex;
+  flex-direction: column;
 
   .area-title {
     color: #dedede;
   }
+  .area-scrollable {
+    height: 100%;
+    margin-top: 12px;
+    max-height: 100%;
+    overflow-y: scroll;
+  }
+}
+
+.tooltip {
+  $bg: rgb(23, 23, 23);
+  padding: 2px 5px 3px 5px;
+  border-radius: 4px;
+  color: #a0a0a0;
+  font-size: 11px;
+  background-color: $bg;
+  box-shadow: 0 0 0 1px rgba(white, 0.05);
+  position: absolute;
+  width: max-content;
+  transform: translate3d(-50%, -50%, 0);
 }
 
 :root {
@@ -107,6 +159,7 @@ a,
   --colors-lowContrast: black;
   --colors-highContrast: white;
   --container-padding: 10px;
+  --footer-height: $footer-height;
 }
 
 .progress {

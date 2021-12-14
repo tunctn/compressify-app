@@ -1,10 +1,9 @@
-import { useState } from "react";
-// import s from "./s.module.scss";
+import os from "os";
 
-import FolderTree from "./folderTree";
+import s from "./s.module.scss";
+import FolderTree from "./FolderTree";
 import { getFilePaths } from "../../src/helpers";
 
-const s = {};
 const FilesAndFolders = ({ setFilePaths, filePaths }) => {
   const handleAdd = async (type) => {
     const dialog = window.Electron.dialog;
@@ -54,9 +53,12 @@ const FilesAndFolders = ({ setFilePaths, filePaths }) => {
       <div className={`area__top-area ${s.toparea}`}>
         <div className={`area-title ${s.areatitle}`}>Files and folders</div>
         <div className={s.buttons}>
-          <button className={s.button} onClick={() => handleAdd("folders")}>
-            Add folders
-          </button>
+          {os.platform() === "darwin" && (
+            <button className={s.button} onClick={() => handleAdd("folders")}>
+              Add folders
+            </button>
+          )}
+
           <button className={s.button} onClick={() => handleAdd("files")}>
             Add files
           </button>

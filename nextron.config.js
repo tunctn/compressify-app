@@ -1,4 +1,5 @@
 const path = require("path");
+
 module.exports = {
   // specify an alternate main src directory, defaults to 'main'
   mainSrcDir: "main",
@@ -17,6 +18,7 @@ module.exports = {
       entry: {
         background: "./main/background.js",
         preload: "./main/preload.js",
+        splash: "./main/splash.js",
       },
     });
 

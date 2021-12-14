@@ -1,8 +1,7 @@
 import electron from "electron";
 import { useState } from "react";
 
-// import s from "./s.module.scss";
-const s = {};
+import s from "./s.module.scss";
 import { getFolderTree, formatBytes } from "../../src/helpers";
 import { ChevronBottom, ChevronRight } from "../icons";
 
@@ -21,32 +20,26 @@ const Tree = ({ set, data, baselevel }) => {
   );
 };
 
-const handleRemove = (set, path) => {
-  // set((current) => {
-  //   let c = [...current];
-  //   let index = c.indexOf(path);
-  //   if (index > -1) {
-  //     c.splice(index, 1);
-  //   }
-  //   return c;
-  // });
-};
+// const handleRemove = (set, path) => {
+// set((current) => {
+//   let c = [...current];
+//   let index = c.indexOf(path);
+//   if (index > -1) {
+//     c.splice(index, 1);
+//   }
+//   return c;
+// });
+// };
 
-const File = ({ name, set, path, index, level, type, size }) => {
+const File = ({ name, set, path, level, type, size }) => {
   let ext = type ? `${type.split(".")[1]}` : "?";
 
-  const handleDoubleClick = () => {
-    electron.shell.openPath(path);
-  };
+  const handleDoubleClick = () => electron.shell.openPath(path);
   return (
     <button
-      className={`
-				${s.ft__line}
-				${index % 2 ? s.ft__even : ""}
-				${s.ft__file}
-			`}
+      className={s.ft__line}
       style={{ paddingLeft: folderLeftMargin * level + "px" }}
-      onClick={() => handleRemove(set, path)}
+      // onClick={() => handleRemove(set, path)}
       onDoubleClick={handleDoubleClick}
     >
       <span className={s.ft__labelspan}>{name}</span>
@@ -71,16 +64,7 @@ const Collapsible = ({ isOpen, children }) => {
   );
 };
 
-const Folder = ({
-  name,
-  set,
-  path,
-  children,
-  branches,
-  index,
-  level,
-  size,
-}) => {
+const Folder = ({ name, children, branches, level }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleToggle = (e) => {
@@ -89,15 +73,11 @@ const Folder = ({
   };
 
   const hasFile = branches.find((branch) => branch.type !== "folder");
-  // const hasFile = true;
   return (
     <div className={`${hasFile ? s.ft__folder : ""}`}>
       {hasFile && (
         <button
-          className={`
-						${s.ft__line}
-						${index % 2 ? s.ft__even : ""}
-					`}
+          className={s.ft__line}
           style={{ paddingLeft: folderLeftMargin * level + "px" }}
         >
           <div className={s.ft__labelspan}>
@@ -111,8 +91,6 @@ const Folder = ({
                 </span>
                 <span className={s.ft__folder__label}>{name}</span>
               </div>
-
-              {/* <span className={s.ft__mutedtext}>{branches.length} items</span> */}
             </div>
           </div>
         </button>
@@ -141,7 +119,6 @@ const TreeRecursive = ({ data, set, baselevel }) => {
           size={item.size}
           index={item.index}
         >
-          {/* Call the <TreeRecursive /> component with the current item.children */}
           <TreeRecursive data={item.children} set={set} baselevel={baselevel} />
         </Folder>
       );

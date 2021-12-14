@@ -1,0 +1,137 @@
+.output {
+  .dir {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #212121;
+    width: 100%;
+    height: 28px;
+    border-radius: 8px;
+    padding: 2px;
+    position: relative;
+
+    .foldername {
+      z-index: 1;
+      color: #a0a0a0;
+      font-size: 13px;
+      padding-left: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      .tooltip {
+        display: none;
+
+        $bg: rgb(23, 23, 23);
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        transform: translateY(calc(100% + 8px));
+        padding: 2px 5px 3px 5px;
+        border-radius: 4px;
+        color: #a0a0a0;
+        font-size: 11px;
+        background-color: $bg;
+        box-shadow: 0 0 0 1px rgba(white, 0.05);
+
+        &::before {
+          display: block;
+          position: absolute;
+          right: 10px;
+          top: 0;
+          transform: translateY(-100%);
+          content: "";
+
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+
+          border-bottom: 5px solid $bg;
+        }
+      }
+    }
+
+    &:hover {
+      .tooltip {
+        display: block;
+      }
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 27px;
+      height: 27px;
+      background-color: #323232;
+      border: 1px solid #424242;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px 1px rgba(black, 0.12);
+
+      &:hover {
+        border-color: #525252;
+        background-color: #373737;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+.area {
+  margin-top: 3px;
+  border-radius: 5px;
+  padding: 8px;
+  background-color: #282828;
+
+  .title {
+    color: #cccccc;
+    font-size: 13px;
+  }
+
+  .titleflex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.settings {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+
+  .setting {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 3px;
+    align-items: center;
+
+    .val {
+      width: 100%;
+      margin-right: 10px;
+    }
+
+    .label {
+      width: 80%;
+      text-align: right;
+      color: #cccccc;
+      font-size: 12px;
+      padding-right: 5px;
+    }
+  }
+}
+.areainfo {
+  font-size: 11px;
+  margin-top: 12px;
+  color: #656565;
+}
+
+.checks {
+  .check {
+    margin-top: 6px;
+  }
+}

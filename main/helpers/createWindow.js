@@ -2,7 +2,6 @@ import { screen, BrowserWindow } from "electron";
 import Store from "electron-store";
 import path from "path";
 
-console.log(__dirname);
 export default function createWindow(windowName, options) {
   const key = "window-state";
   const name = `window-state-${windowName}`;
@@ -79,14 +78,24 @@ export default function createWindow(windowName, options) {
       enableRemoteModule: true,
       // preload: __dirname + "/preload.js",
       preload: path.join(__dirname, "/preload.js"),
-
       ...options.webPreferences,
     },
   });
 
+  // win = Splashscreen.initSplashScreen({
+  //   windowOpts: windowOptions,
+  //   templateUrl: path.join(__dirname, "/splash-screen.html"),
+  //   delay: 0, // force show immediately since example will load fast
+  //   minVisible: 1500, // show for 1.5s so example is obvious
+  //   splashScreenOpts: {
+  //     height: 500,
+  //     width: 500,
+  //     transparent: true,
+  //   },
+  // });
+
   require("@electron/remote/main").enable(win.webContents);
 
   win.on("close", saveState);
-
   return win;
 }

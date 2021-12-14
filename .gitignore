@@ -20,6 +20,7 @@ coverage
 app
 dist
 
+*.hidden.*
 
 # nyc test coverage
 .nyc_output

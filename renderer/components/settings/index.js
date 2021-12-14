@@ -1,7 +1,191 @@
-// import s from "./s.module.scss";
-const s = {};
-const FilesAndFolders = () => {
-  return <div className={`area ${s.faf}`}>bla bla</div>;
+import electron from "electron";
+
+import { useState, useEffect } from "react";
+import s from "./s.module.scss";
+
+const Store = require("electron-store");
+const store = new Store();
+
+import { Dir } from "../icons";
+import { TYPES, SETTINGS } from "../../contants";
+
+import { Checkmark } from "../ui/buttons";
+import { Options, QualitySetter } from "../ui/inputs";
+
+const Settings = () => {
+  const [folder, setFolder] = useState("");
+  useEffect(() => {
+    let f = store.get(SETTINGS.OUTPUT.DIR.NAME) || SETTINGS.OUTPUT.DIR.DEFAULT;
+    setFolder(f);
+  }, []);
+  const handleFolderSelect = async () => {
+    const dialog = window.Electron.dialog;
+    let properties = ["dontAddToRecent", "createDirectory", "openDirectory"];
+
+    let folder = await dialog
+      .showOpenDialog({
+        buttonLabel: `Select folder`,
+        properties: properties,
+      })
+      .then((result) => result)
+      .catch(console.log);
+
+    if (folder.canceled) return;
+
+    folder = folder.filePaths[0];
+    setFolder(folder);
+    store.set(SETTINGS.OUTPUT.DIR.NAME, folder);
+  };
+
+  const handleFolderOpen = (e) => {
+    e.preventDefault();
+    if (folder) {
+      electron.shell.openPath(folder);
+    }
+  };
+
+  return (
+    <div className={`area ${s.settingsarea}`}>
+      <div className="area-title">Settings</div>
+      <div className="area-scrollable">
+        {/* Output */}
+        <div className={s.area}>
+          <div className={s.title}>Output</div>
+          <div className={s.output}>
+            {/* Output dir */}
+            <div className={s.dir} onClick={handleFolderSelect}>
+              <span className={s.foldername} onDoubleClick={handleFolderOpen}>
+                {folder.split("/").pop()}
+                <span className={s.tooltip}>{folder}</span>
+              </span>
+              <button>
+                <Dir />
+              </button>
+            </div>
+
+            <div className={s.checks}>
+              <div className={s.check}>
+                <Checkmark
+                  label="Deal with duplicate files"
+                  name={SETTINGS.OUTPUT.DEAL_WITH_DUPLICATE.NAME}
+                  defaultValue={SETTINGS.OUTPUT.DEAL_WITH_DUPLICATE.DEFAULT}
+                />
+              </div>
+              <div className={s.check}>
+                <Checkmark
+                  label="Delete logs after finished"
+                  name={SETTINGS.OUTPUT.DELETE_LOGS_AFTER_FINISHED.NAME}
+                  defaultValue={
+                    SETTINGS.OUTPUT.DELETE_LOGS_AFTER_FINISHED.DEFAULT
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Compression settings */}
+        <div className={s.areainfo}>Compression</div>
+
+        {/* Image */}
+        <div className={s.area}>
+          <div className={s.titleflex}>
+            <div className={s.title}>Image</div>
+            <Checkmark
+              label=""
+              name={SETTINGS.IMAGE.ENABLED.NAME}
+              defaultValue={SETTINGS.IMAGE.ENABLED.DEFAULT}
+            />
+          </div>
+          <div className={s.settings}>
+            {Object.entries(SETTINGS.IMAGE.QUALITY).map(([key, val]) => {
+              return (
+                <div className={s.setting} key={key}>
+                  <div className={s.label}>{key}</div>
+                  <div className={s.val}>
+                    <QualitySetter item={val} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Raw */}
+        <div className={s.area}>
+          <div className={s.titleflex}>
+            <div className={s.title}>RAW</div>
+            <Checkmark
+              label=""
+              name={SETTINGS.RAW.ENABLED.NAME}
+              defaultValue={SETTINGS.RAW.ENABLED.DEFAULT}
+            />
+          </div>
+          <div className={s.settings}>
+            <div className={s.setting}>
+              <div className={s.label}>RAW quality</div>
+              <div className={s.val}>
+                <QualitySetter item={SETTINGS.RAW.QUALITY} />
+              </div>
+            </div>
+            <div className={s.setting}>
+              <div className={s.label}>Convert to</div>
+              <div className={s.val}>
+                <Options
+                  item={SETTINGS.RAW.CONVERT_TO}
+                  options={SETTINGS.RAW.CONVERT_TO.OPTIONS}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Video */}
+        <div className={s.area}>
+          <div className={s.titleflex}>
+            <div className={s.title}>Video</div>
+            <Checkmark
+              label=""
+              name={SETTINGS.VIDEO.ENABLED.NAME}
+              defaultValue={SETTINGS.VIDEO.ENABLED.DEFAULT}
+            />
+          </div>
+          <div className={s.settings}>
+            <div className={s.setting}>
+              <div className={s.label}>Birate</div>
+              <div className={s.val}>
+                <QualitySetter
+                  item={SETTINGS.VIDEO.BITRATE}
+                  unlimited
+                  min={0}
+                />
+              </div>
+            </div>
+            <div className={s.setting}>
+              <div className={s.label}>Convert</div>
+              <div className={s.val}>
+                <Checkmark
+                  label=""
+                  name={SETTINGS.VIDEO.ENABLED.NAME}
+                  defaultValue={SETTINGS.VIDEO.ENABLED.DEFAULT}
+                />
+              </div>
+            </div>
+
+            <div className={s.setting}>
+              <div className={s.label}>Convert to</div>
+              <div className={s.val}>
+                <Options
+                  item={SETTINGS.VIDEO.CONVERT.TO}
+                  options={SETTINGS.VIDEO.CONVERT.TO.OPTIONS}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default FilesAndFolders;
+export default Settings;

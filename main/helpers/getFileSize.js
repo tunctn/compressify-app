@@ -1,3 +1,5 @@
+import fs from "fs";
+
 const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
 
@@ -10,4 +12,10 @@ const formatBytes = (bytes, decimals = 2) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
 };
 
-export default formatBytes;
+const getFileSize = (file) => {
+  let stats = fs.statSync(file);
+  let bytes = stats.size;
+  return { bytes: bytes, formatted: formatBytes(bytes) };
+};
+
+export default getFileSize;

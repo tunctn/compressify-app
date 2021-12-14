@@ -1,13 +1,16 @@
+import { useState, useEffect } from "react";
 import { shell } from "electron";
 
-// import s from "./footer.module.scss";
-const s = {};
+import s from "./footer.module.scss";
 const Footer = () => {
+  const [version, setVersion] = useState("");
+  useEffect(() => setVersion(window?.appVersion), []);
+
   const handleExternal = (link) => shell.openExternal(link);
 
   return (
     <footer className={s.footer}>
-      <div>v3.0.0 12/12/2021</div>
+      <div>v{version} 12/12/2021</div>
       <div>
         {" "}
         <button

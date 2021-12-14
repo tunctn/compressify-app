@@ -1,2 +1,61 @@
-(()=>{var r={1837:r=>{"use strict";r.exports=require("@electron/remote")}},e={};function o(t){var n=e[t];if(void 0!==n)return n.exports;var i=e[t]={exports:{}};return r[t](i,i.exports,o),i.exports}(()=>{const{dialog:r}=o(1837);window.Electron={},window.Electron.dialog=r})(),module.exports={}})();
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "@electron/remote":
+/*!***********************************!*\
+  !*** external "@electron/remote" ***!
+  \***********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("@electron/remote");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!*************************!*\
+  !*** ./main/preload.js ***!
+  \*************************/
+const {
+  dialog,
+  app
+} = __webpack_require__(/*! @electron/remote */ "@electron/remote");
+
+window.Electron = {};
+window.Electron.dialog = dialog;
+window.appVersion = app.getVersion();
+})();
+
+module.exports = __webpack_exports__;
+/******/ })()
+;
 //# sourceMappingURL=preload.js.map
