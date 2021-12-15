@@ -1,63 +1,60 @@
+import { ipcMain } from "electron";
 import dayjs from "dayjs";
 import PromisePool from "@supercharge/promise-pool";
 
 import { getSettings } from "./compress";
+import { mainWindow } from "../background";
+import log from "npmlog";
+import logfile from "npmlog-file";
 
-import { ioApp } from "../background";
+const startCompressing = async (event, filepaths = []) => {
+  let eventEmitter = mainWindow.webContents;
 
-const startCompressing = async (e, filepaths = []) => {
+  let stop = false;
+  if (!stop) {
+    ipcMain.on("stop", () => {
+      stop = true;
+    });
+  }
+
   const settings = getSettings();
-
   let total = filepaths.length;
   let success = 0;
 
   let start = dayjs();
 
-  let num = 99;
-
-  const promises = [];
-
-  for (let index = 0; index < num; index++) {
-    promises.push(
-      new Promise(async (resolve, reject) => {
-        setTimeout(() => {
-          console.log(index);
-          ioApp.emit("compression-progress", index);
-          resolve(index);
-        }, 500 * index);
-      })
-    );
+  let promises = [];
+  for (let index = 0; index < 99; index++) {
+    promises.push(index);
   }
 
-  await Promise.all(promises);
+  const { results, errors } = await PromisePool.withConcurrency(5)
+    .for(promises)
+    .handleError(async (error, user) => {
+      console.log(stop, error, user);
+      if (stop) {
+        eventEmitter.send("ipc-compression-progress", 0);
 
-  // const { results, errors } = await PromisePool.withConcurrency(5)
-  //   .for(filepaths)
-  //   .process(async (filepath, index, pool) => {
-  //     // await compressVideo(outputDir, filepath);
-  //     // const result = await compress(outputDir, filepath, jpegQuality);
-  //     // if (result) {
-  //     //   success = success + 1;
-  //     // }
-  //     // console.log(
-  //     //   Math.round((success * 100) / total),
-  //     //   "%",
-  //     //   " processed=",
-  //     //   success,
-  //     //   " index=",
-  //     //   index
-  //     // );
+        // throwing errors will stop PromisePool and you must catch them yourself
+        throw error;
+      }
+    })
+    .process(async (filepath, index, pool) => {
+      log.info("compressing", "current: %j", index);
+    });
 
-  //     return "true";
-  //   });
+  // meaning it is finished actually, whether with error or not
+  stop = false;
 
-  // let end = dayjs();
-  // let diff = end.diff(start, "seconds");
+  let end = dayjs();
+  let diff = end.diff(start, "seconds");
 
+  log.info("exiting", "took: %j seconds", diff);
+  logfile.write(log, "log.txt");
   // console.log(results, errors);
   // console.clear();
   // console.log(Math.round((success * 100) / total), "%", diff, "seconds");
 
-  return "nice";
+  return event.reply("start", results);
 };
 export default startCompressing;

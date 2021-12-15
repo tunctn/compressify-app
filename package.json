@@ -25,6 +25,8 @@
     "electron-store": "^8.0.1",
     "express": "^4.17.1",
     "handbrake-js": "^6.0.0",
+    "npmlog": "^6.0.0",
+    "npmlog-file": "^0.1.4",
     "sass": "^1.45.0",
     "sharp": "^0.29.3",
     "socket.io": "^4.4.0",

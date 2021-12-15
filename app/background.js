@@ -141,16 +141,6 @@ module.exports = __webpack_require__(/*! core-js-pure/stable/promise */ "./node_
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime-corejs3/core-js-stable/set-timeout.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@babel/runtime-corejs3/core-js-stable/set-timeout.js ***!
-  \***************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__(/*! core-js-pure/stable/set-timeout */ "./node_modules/core-js-pure/stable/set-timeout.js");
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime-corejs3/core-js/object/define-property.js":
 /*!*******************************************************************************!*\
   !*** ./node_modules/@babel/runtime-corejs3/core-js/object/define-property.js ***!
@@ -1009,7 +999,7 @@ module.exports = __webpack_require__(/*! ../dist/src/main */ "./node_modules/@el
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ioApp": () => (/* binding */ ioApp)
+/* harmony export */   "mainWindow": () => (/* binding */ mainWindow)
 /* harmony export */ });
 /* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! electron */ "electron");
 /* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(electron__WEBPACK_IMPORTED_MODULE_0__);
@@ -1018,52 +1008,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers */ "./main/helpers/index.js");
 
 
+const {
+  once,
+  EventEmitter
+} = __webpack_require__(/*! events */ "events");
+
+
 
 __webpack_require__(/*! @electron/remote/main */ "./node_modules/@electron/remote/main/index.js").initialize(); // helpers
 
 
- // express
+ // // express
+// const express = require("express");
+// const expressApp = express();
+// // cors
+// const cors = require("cors");
+// expressApp.use(cors({ origin: "*" }));
+// // server
+// const http = require("http");
+// const server = http.createServer(expressApp);
+// // socket io
+// const { Server } = require("socket.io");
+// const io = new Server(server, {
+//   cors: {
+//     origin: ["http://localhost:8888", "app://.", "app://"],
+//     allowedHeaders: ["Access-Control-Allow-Origin"],
+//     credentials: true,
+//   },
+//   transports: ["websocket", "polling", "flashsocket"],
+// });
+// export const ioApp = io;
+// // init server
+// expressApp.get("/", (req, res) => {
+//   res.send("<h1>Hello world</h1>");
+// });
+// // listen to server
+// server.listen(7777, () => {
+//   console.log("listening on *:7777");
+// });
 
-const express = __webpack_require__(/*! express */ "express");
-
-const expressApp = express(); // cors
-
-const cors = __webpack_require__(/*! cors */ "cors");
-
-expressApp.use(cors({
-  origin: "*"
-})); // server
-
-const http = __webpack_require__(/*! http */ "http");
-
-const server = http.createServer(expressApp); // socket io
-
-const {
-  Server
-} = __webpack_require__(/*! socket.io */ "socket.io");
-
-const io = new Server(server, {
-  cors: {
-    origin: ["http://localhost:8888", "app://.", "app://"],
-    allowedHeaders: ["Access-Control-Allow-Origin"],
-    credentials: true
-  },
-  transports: ["websocket", "polling", "flashsocket"]
-});
-const ioApp = io; // init server
-
-expressApp.get("/", (req, res) => {
-  res.send("<h1>Hello world</h1>");
-});
-io.on("connection", socket => {// socket.on("compression-progress", (msg) => {
-  //   console.log("message: " + msg);
-  //   io.emit("compression-progress", msg);
-  // });
-}); // listen to server
-
-server.listen(7777, () => {
-  console.log("listening on *:7777");
-});
 const isProd = "development" === "production";
 if (isProd) electron_serve__WEBPACK_IMPORTED_MODULE_1___default()({
   directory: "app"
@@ -1092,7 +1075,15 @@ electron__WEBPACK_IMPORTED_MODULE_0__.app.on("ready", () => {
   });
 });
 electron__WEBPACK_IMPORTED_MODULE_0__.app.on("window-all-closed", () => electron__WEBPACK_IMPORTED_MODULE_0__.app.quit());
-electron__WEBPACK_IMPORTED_MODULE_0__.ipcMain.handle("start-compressing", _helpers__WEBPACK_IMPORTED_MODULE_2__.startCompressing);
+electron__WEBPACK_IMPORTED_MODULE_0__.ipcMain.on("start", _helpers__WEBPACK_IMPORTED_MODULE_2__.startCompressing);
+electron__WEBPACK_IMPORTED_MODULE_0__.ipcMain.setMaxListeners(5); // ipcMain.on("invoke-compressing", (event, args) => {
+//   // console.log(event, args);
+//   // ipcMain.handle("start-compressing", startCompressing);
+// });
+// ipcMain.on("cancel-compresing", (event, arg) => {
+//   // console.log(arg); // prints "ping"
+//   event.returnValue = "pong";
+// });
 
 /***/ }),
 
@@ -1512,16 +1503,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/promise */ "./node_modules/@babel/runtime-corejs3/core-js-stable/promise.js");
-/* harmony import */ var _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_corejs3_core_js_stable_set_timeout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs3/core-js-stable/set-timeout */ "./node_modules/@babel/runtime-corejs3/core-js-stable/set-timeout.js");
-/* harmony import */ var _babel_runtime_corejs3_core_js_stable_set_timeout__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs3_core_js_stable_set_timeout__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "dayjs");
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _supercharge_promise_pool__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @supercharge/promise-pool */ "@supercharge/promise-pool");
-/* harmony import */ var _supercharge_promise_pool__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_supercharge_promise_pool__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _compress__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./compress */ "./main/helpers/compress/index.js");
-/* harmony import */ var _background__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../background */ "./main/background.js");
+/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! electron */ "electron");
+/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(electron__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs */ "dayjs");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _supercharge_promise_pool__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @supercharge/promise-pool */ "@supercharge/promise-pool");
+/* harmony import */ var _supercharge_promise_pool__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_supercharge_promise_pool__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _compress__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./compress */ "./main/helpers/compress/index.js");
+/* harmony import */ var _background__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../background */ "./main/background.js");
+/* harmony import */ var npmlog__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! npmlog */ "npmlog");
+/* harmony import */ var npmlog__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(npmlog__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var npmlog_file__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! npmlog-file */ "npmlog-file");
+/* harmony import */ var npmlog_file__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(npmlog_file__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -1529,49 +1522,51 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const startCompressing = async (e, filepaths = []) => {
-  const settings = (0,_compress__WEBPACK_IMPORTED_MODULE_4__.getSettings)();
-  let total = filepaths.length;
-  let success = 0;
-  let start = dayjs__WEBPACK_IMPORTED_MODULE_2___default()();
-  let num = 99;
-  const promises = [];
 
-  for (let index = 0; index < num; index++) {
-    promises.push(new (_babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_0___default())(async (resolve, reject) => {
-      _babel_runtime_corejs3_core_js_stable_set_timeout__WEBPACK_IMPORTED_MODULE_1___default()(() => {
-        console.log(index);
-        _background__WEBPACK_IMPORTED_MODULE_5__.ioApp.emit("compression-progress", index);
-        resolve(index);
-      }, 500 * index);
-    }));
+const startCompressing = async (event, filepaths = []) => {
+  let eventEmitter = _background__WEBPACK_IMPORTED_MODULE_4__.mainWindow.webContents;
+  let stop = false;
+
+  if (!stop) {
+    electron__WEBPACK_IMPORTED_MODULE_0__.ipcMain.on("stop", () => {
+      stop = true;
+    });
   }
 
-  await _babel_runtime_corejs3_core_js_stable_promise__WEBPACK_IMPORTED_MODULE_0___default().all(promises); // const { results, errors } = await PromisePool.withConcurrency(5)
-  //   .for(filepaths)
-  //   .process(async (filepath, index, pool) => {
-  //     // await compressVideo(outputDir, filepath);
-  //     // const result = await compress(outputDir, filepath, jpegQuality);
-  //     // if (result) {
-  //     //   success = success + 1;
-  //     // }
-  //     // console.log(
-  //     //   Math.round((success * 100) / total),
-  //     //   "%",
-  //     //   " processed=",
-  //     //   success,
-  //     //   " index=",
-  //     //   index
-  //     // );
-  //     return "true";
-  //   });
-  // let end = dayjs();
-  // let diff = end.diff(start, "seconds");
-  // console.log(results, errors);
+  const settings = (0,_compress__WEBPACK_IMPORTED_MODULE_3__.getSettings)();
+  let total = filepaths.length;
+  let success = 0;
+  let start = dayjs__WEBPACK_IMPORTED_MODULE_1___default()();
+  let promises = [];
+
+  for (let index = 0; index < 99; index++) {
+    promises.push(index);
+  }
+
+  const {
+    results,
+    errors
+  } = await _supercharge_promise_pool__WEBPACK_IMPORTED_MODULE_2___default().withConcurrency(5).for(promises).handleError(async (error, user) => {
+    console.log(stop, error, user);
+
+    if (stop) {
+      eventEmitter.send("ipc-compression-progress", 0); // throwing errors will stop PromisePool and you must catch them yourself
+
+      throw error;
+    }
+  }).process(async (filepath, index, pool) => {
+    npmlog__WEBPACK_IMPORTED_MODULE_5___default().info("compressing", "current: %j", index);
+  }); // meaning it is finished actually, whether with error or not
+
+  stop = false;
+  let end = dayjs__WEBPACK_IMPORTED_MODULE_1___default()();
+  let diff = end.diff(start, "seconds");
+  npmlog__WEBPACK_IMPORTED_MODULE_5___default().info("exiting", "took: %j seconds", diff);
+  npmlog_file__WEBPACK_IMPORTED_MODULE_6___default().write((npmlog__WEBPACK_IMPORTED_MODULE_5___default()), "log.txt"); // console.log(results, errors);
   // console.clear();
   // console.log(Math.round((success * 100) / total), "%", diff, "seconds");
 
-  return "nice";
+  return event.reply("start", results);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (startCompressing);
@@ -6866,46 +6861,6 @@ for (var COLLECTION_NAME in DOMIterables) {
 
 /***/ }),
 
-/***/ "./node_modules/core-js-pure/modules/web.timers.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/core-js-pure/modules/web.timers.js ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
-
-var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js-pure/internals/export.js");
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/core-js-pure/internals/global.js");
-var apply = __webpack_require__(/*! ../internals/function-apply */ "./node_modules/core-js-pure/internals/function-apply.js");
-var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/core-js-pure/internals/is-callable.js");
-var userAgent = __webpack_require__(/*! ../internals/engine-user-agent */ "./node_modules/core-js-pure/internals/engine-user-agent.js");
-var arraySlice = __webpack_require__(/*! ../internals/array-slice */ "./node_modules/core-js-pure/internals/array-slice.js");
-
-var MSIE = /MSIE .\./.test(userAgent); // <- dirty ie9- check
-var Function = global.Function;
-
-var wrap = function (scheduler) {
-  return function (handler, timeout /* , ...arguments */) {
-    var boundArgs = arguments.length > 2;
-    var args = boundArgs ? arraySlice(arguments, 2) : undefined;
-    return scheduler(boundArgs ? function () {
-      apply(isCallable(handler) ? handler : Function(handler), this, args);
-    } : handler, timeout);
-  };
-};
-
-// ie9- setTimeout & setInterval additional parameters fix
-// https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers
-$({ global: true, bind: true, forced: MSIE }, {
-  // `setTimeout` method
-  // https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout
-  setTimeout: wrap(global.setTimeout),
-  // `setInterval` method
-  // https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-setinterval
-  setInterval: wrap(global.setInterval)
-});
-
-
-/***/ }),
-
 /***/ "./node_modules/core-js-pure/stable/array/virtual/for-each.js":
 /*!********************************************************************!*\
   !*** ./node_modules/core-js-pure/stable/array/virtual/for-each.js ***!
@@ -7117,20 +7072,6 @@ module.exports = parent;
 
 /***/ }),
 
-/***/ "./node_modules/core-js-pure/stable/set-timeout.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/core-js-pure/stable/set-timeout.js ***!
-  \*********************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-__webpack_require__(/*! ../modules/web.timers */ "./node_modules/core-js-pure/modules/web.timers.js");
-var path = __webpack_require__(/*! ../internals/path */ "./node_modules/core-js-pure/internals/path.js");
-
-module.exports = path.setTimeout;
-
-
-/***/ }),
-
 /***/ "./renderer/contants.js":
 /*!******************************!*\
   !*** ./renderer/contants.js ***!
@@ -7276,17 +7217,6 @@ module.exports = require("buffer-image-size");
 
 /***/ }),
 
-/***/ "cors":
-/*!***********************!*\
-  !*** external "cors" ***!
-  \***********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("cors");
-
-/***/ }),
-
 /***/ "dayjs":
 /*!************************!*\
   !*** external "dayjs" ***!
@@ -7320,17 +7250,6 @@ module.exports = require("electron-store");
 
 /***/ }),
 
-/***/ "express":
-/*!**************************!*\
-  !*** external "express" ***!
-  \**************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("express");
-
-/***/ }),
-
 /***/ "handbrake-js":
 /*!*******************************!*\
   !*** external "handbrake-js" ***!
@@ -7342,6 +7261,28 @@ module.exports = require("handbrake-js");
 
 /***/ }),
 
+/***/ "npmlog":
+/*!*************************!*\
+  !*** external "npmlog" ***!
+  \*************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("npmlog");
+
+/***/ }),
+
+/***/ "npmlog-file":
+/*!******************************!*\
+  !*** external "npmlog-file" ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("npmlog-file");
+
+/***/ }),
+
 /***/ "sharp":
 /*!************************!*\
   !*** external "sharp" ***!
@@ -7350,17 +7291,6 @@ module.exports = require("handbrake-js");
 
 "use strict";
 module.exports = require("sharp");
-
-/***/ }),
-
-/***/ "socket.io":
-/*!****************************!*\
-  !*** external "socket.io" ***!
-  \****************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("socket.io");
 
 /***/ }),
 
@@ -7394,17 +7324,6 @@ module.exports = require("events");
 
 "use strict";
 module.exports = require("fs");
-
-/***/ }),
-
-/***/ "http":
-/*!***********************!*\
-  !*** external "http" ***!
-  \***********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("http");
 
 /***/ }),
 

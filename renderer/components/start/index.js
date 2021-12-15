@@ -1,37 +1,43 @@
-import { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ipcRenderer } from "electron";
 import dayjs from "dayjs";
 
 import s from "./s.module.scss";
 
-import { SocketContext } from "../../context/socket";
+// import { SocketContext } from "../../context/socket";
 
 const FilesAndFolders = ({ files, progress, defaultProgress, setProgress }) => {
-  const socket = useContext(SocketContext);
+  // const socket = useContext(SocketContext);
 
-  // handle compression process socket
-  const [compressionProgress, setCompressionProgress] = useState(0);
-  const handleProgress = useCallback((p) => setCompressionProgress(p), []);
+  const [ipcProgress, setIPCProgress] = useState(0);
+  const handleIpcProgress = useCallback((e, p) => {
+    setIPCProgress(p);
+  }, []);
 
   useEffect(() => {
-    socket.on("compression-progress", handleProgress);
+    ipcRenderer.on("start", (e, args) => {
+      console.log(e, args);
+    });
+    ipcRenderer.on("ipc-compression-progress", handleIpcProgress);
     return () => {
-      socket.off("compression-progress", handleProgress);
+      ipcRenderer.off("ipc-compression-progress", handleIpcProgress);
     };
-  }, [socket, handleProgress]);
+  }, [handleIpcProgress]);
 
   const start = async () => {
-    setCompressionProgress(0);
+    // setCompressionProgress(0);
     // let fls = [...files];
-
-    await ipcRenderer.invoke("start-compressing", files).then((res) => {
-      // if (res) setP((p) => p + 1);
-      // resolve(res);
-    });
+    ipcRenderer.send("start", files);
+    // await ipcRenderer.invoke("start", files);
+    // .then((res) => {
+    // if (res) setP((p) => p + 1);
+    // resolve(res);
+    // });
   };
 
   const cancel = () => {
-    setProgress({ ...defaultProgress, cancelled: true, finishedOn: dayjs() });
+    ipcRenderer.send("stop");
+    // setProgress({ ...defaultProgress, cancelled: true, finishedOn: dayjs() });
   };
 
   const handleClick = () => {
@@ -49,10 +55,12 @@ const FilesAndFolders = ({ files, progress, defaultProgress, setProgress }) => {
         // disabled={progress.started ? false : files.length ? false : true}
         onClick={handleClick}
       >
-        {compressionProgress} - {files.length} -{" "}
+        {`ipc=${ipcProgress}`} - {files.length} -{" "}
         {/* {p} / {files.length} ( {Math.round((p * 100) / files.length)}% ) --- */}
         {progress.started ? "Cancel compressing" : "Start compressing"}
       </button>
+
+      <button onClick={cancel}>cancel</button>
     </div>
   );
 };
