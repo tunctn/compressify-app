@@ -21,6 +21,7 @@ app
 dist
 
 *.hidden.*
+logs/
 
 # nyc test coverage
 .nyc_output

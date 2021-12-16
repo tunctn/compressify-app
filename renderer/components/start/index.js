@@ -4,65 +4,57 @@ import dayjs from "dayjs";
 
 import s from "./s.module.scss";
 
-// import { SocketContext } from "../../context/socket";
+const Start = ({ filePaths, setCancelled }) => {
+  const [started, setStarted] = useState(false);
+  const [finished, setFinished] = useState(false);
 
-const FilesAndFolders = ({ files, progress, defaultProgress, setProgress }) => {
-  // const socket = useContext(SocketContext);
-
-  const [ipcProgress, setIPCProgress] = useState(0);
-  const handleIpcProgress = useCallback((e, p) => {
-    setIPCProgress(p);
-  }, []);
+  const handleFinished = () => setFinished(true);
 
   useEffect(() => {
-    ipcRenderer.on("start", (e, args) => {
-      console.log(e, args);
-    });
-    ipcRenderer.on("ipc-compression-progress", handleIpcProgress);
+    ipcRenderer.on("progress-finished", handleFinished);
     return () => {
-      ipcRenderer.off("ipc-compression-progress", handleIpcProgress);
+      ipcRenderer.off("progress-finished", handleFinished);
     };
-  }, [handleIpcProgress]);
+  }, []);
 
   const start = async () => {
-    // setCompressionProgress(0);
-    // let fls = [...files];
-    ipcRenderer.send("start", files);
-    // await ipcRenderer.invoke("start", files);
-    // .then((res) => {
-    // if (res) setP((p) => p + 1);
-    // resolve(res);
-    // });
+    setCancelled(false);
+    setFinished(false);
+    setStarted(true);
+    ipcRenderer.send("start", filePaths);
   };
 
   const cancel = () => {
+    setCancelled(true);
+    setFinished(false);
+    setStarted(false);
+    ipcRenderer.send("cancelled");
     ipcRenderer.send("stop");
-    // setProgress({ ...defaultProgress, cancelled: true, finishedOn: dayjs() });
   };
 
   const handleClick = () => {
-    start();
-    // if (progress.started === false && hasFiles) {
-    //   start();
-    // } else {
-    //   cancel();
-    // }
+    if (started) {
+      if (finished) {
+        start();
+      } else {
+        cancel();
+      }
+    } else {
+      start();
+    }
   };
 
   return (
     <div className={`${s.start}`}>
-      <button
-        // disabled={progress.started ? false : files.length ? false : true}
-        onClick={handleClick}
-      >
-        {`ipc=${ipcProgress}`} - {files.length} -{" "}
-        {/* {p} / {files.length} ( {Math.round((p * 100) / files.length)}% ) --- */}
-        {progress.started ? "Cancel compressing" : "Start compressing"}
+      <button disabled={filePaths.length <= 0} onClick={handleClick}>
+        {started
+          ? finished
+            ? "Start compressing"
+            : "Cancel compressing"
+          : "Start compressing"}
       </button>
-
-      <button onClick={cancel}>cancel</button>
     </div>
   );
 };
 
-export default FilesAndFolders;
+export default Start;

@@ -1,46 +1,9 @@
 import { app, ipcMain } from "electron";
-
-const { once, EventEmitter } = require("events");
-
 import serve from "electron-serve";
 require("@electron/remote/main").initialize();
 
 // helpers
-import { startCompressing, createWindow } from "./helpers";
-
-// // express
-// const express = require("express");
-// const expressApp = express();
-
-// // cors
-// const cors = require("cors");
-// expressApp.use(cors({ origin: "*" }));
-
-// // server
-// const http = require("http");
-// const server = http.createServer(expressApp);
-
-// // socket io
-// const { Server } = require("socket.io");
-// const io = new Server(server, {
-//   cors: {
-//     origin: ["http://localhost:8888", "app://.", "app://"],
-//     allowedHeaders: ["Access-Control-Allow-Origin"],
-//     credentials: true,
-//   },
-//   transports: ["websocket", "polling", "flashsocket"],
-// });
-// export const ioApp = io;
-
-// // init server
-// expressApp.get("/", (req, res) => {
-//   res.send("<h1>Hello world</h1>");
-// });
-
-// // listen to server
-// server.listen(7777, () => {
-//   console.log("listening on *:7777");
-// });
+import { createWindow } from "./helpers";
 
 const isProd = process.env.NODE_ENV === "production";
 if (isProd) serve({ directory: "app" });
@@ -72,16 +35,4 @@ app.on("ready", () => {
 
 app.on("window-all-closed", () => app.quit());
 
-ipcMain.on("start", startCompressing);
 ipcMain.setMaxListeners(5);
-
-// ipcMain.on("invoke-compressing", (event, args) => {
-//   // console.log(event, args);
-//   // ipcMain.handle("start-compressing", startCompressing);
-// });
-
-// ipcMain.on("cancel-compresing", (event, arg) => {
-//   // console.log(arg); // prints "ping"
-
-//   event.returnValue = "pong";
-// });

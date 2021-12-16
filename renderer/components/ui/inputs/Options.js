@@ -15,7 +15,11 @@ const Options = ({ item, options }) => {
   useEffect(() => {
     let stored = store.get(item.NAME);
     let storedOption = Object.values(options).find((o) => {
-      return o.KEY === stored;
+      if (o.KEY === stored) return true;
+      if (o.VALUE === stored) return true;
+      if (o === stored) return true;
+
+      return false;
     });
     let val = storedOption?.VALUE || item.DEFAULT.VALUE;
     setSelected(val);
@@ -25,7 +29,7 @@ const Options = ({ item, options }) => {
   const handleSelect = (option) => {
     setOpen(false);
     setSelected(option.VALUE);
-    store.set(item.NAME, option.KEY);
+    store.set(item.NAME, option.KEY || option.VALUE);
   };
 
   return (
@@ -38,14 +42,16 @@ const Options = ({ item, options }) => {
       >
         <Tippy
           content={
-            <span className="tooltip">Default: {item.DEFAULT.VALUE}</span>
+            <span className="tooltip">
+              Default: {item.DEFAULT.VALUE || item.DEFAULT}
+            </span>
           }
           placement="bottom"
           delay={[1200, 0]}
           duration={[0, 0]}
         >
           <div>
-            <span>{selected}</span>
+            <span className={s.selected}>{selected}</span>
             <span>
               <ChevronBottom size={9} />
             </span>
@@ -54,18 +60,19 @@ const Options = ({ item, options }) => {
       </Dropdown.Trigger>
       <Dropdown.Content
         className={s.options_content}
-        align="start"
-        style={{ width: triggerRef?.current?.offsetWidth || "" }}
+        align="end"
+        style={{ minWidth: triggerRef?.current?.offsetWidth || "" }}
       >
         {options &&
           Object.values(options).map((option) => {
             return (
               <Dropdown.Item
-                key={option.KEY}
+                key={option.KEY || option.VALUE}
                 className={s.options_item}
+                data-selected={option.VALUE === selected}
                 onClick={() => handleSelect(option)}
               >
-                {option.VALUE}
+                <span>{option.VALUE}</span>
               </Dropdown.Item>
             );
           })}

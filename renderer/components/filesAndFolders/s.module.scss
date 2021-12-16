@@ -92,8 +92,6 @@
   }
 
   &__extension {
-    background-color: rgba(white, 0.08);
-
     border-radius: 50px;
     width: 40px;
     font-size: 10px;
@@ -104,9 +102,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 0 1px rgba(black, 0.2);
 
-    &[data-filetype="jpg"] {
-      background-color: rgba(#7354b5, 0.5);
+    &[data-valid="false"] {
+      color: rgba(white, 0.5);
+      background-color: rgba(#74464f, 0.3) !important;
     }
   }
 
@@ -131,11 +131,23 @@
     font-weight: 500;
     border-bottom: 1px solid #181818;
 
+    &[data-valid="false"] {
+      color: #965b5b;
+
+      &:focus {
+        background: #b55466;
+      }
+    }
+
     &:focus {
       border-radius: 6px;
 
       color: white;
       background: #7354b5;
+
+      .ft__extension {
+        box-shadow: 0 0 0 1px rgba(white, 0.2);
+      }
     }
   }
 

@@ -1,34 +1,45 @@
 import fs from "fs";
 import sharp from "sharp";
 import sizeOf from "buffer-image-size";
+import dayjs from "dayjs";
 
-const compressImage = async (outputDir, filepath, jpegQuality) => {
-  let stats;
-  let lstat;
+import getSettings from "./getSettings";
 
-  try {
-    stats = await fs.promises.stat(filepath);
-    lstat = await fs.promises.lstat(filepath);
-  } catch (e) {
-    return null;
+const compressImage = async (file, eventEmitter) => {
+  const filepath = file.original_path;
+  const buffer = await fs.promises.readFile(filepath);
+  const width = sizeOf(buffer).width;
+
+  let settings = getSettings();
+  const resize = settings.resize.image
+    ? {
+        width: width > settings.resize.image ? settings.resize.image : width,
+      }
+    : {};
+
+  let res = sharp(buffer).resize(resize);
+
+  if (file.ext === "jpeg" || file.ext === "jpg") {
+    res = res.jpeg({ quality: settings.quality.image.jpeg });
   }
-  let isDirectory = stats.isDirectory();
-  if (isDirectory) return null;
+  if (file.ext === "png") {
+    res = res.png({ quality: settings.quality.image.png });
+  }
+  if (file.ext === "tiff") {
+    res = res.tiff({ quality: settings.quality.image.tiff });
+  }
 
-  let name = path.basename(filepath);
-  let extension = path.extname(filepath).toLowerCase().replace(".", "");
-  let outputname = outputDir + "/" + name;
-  if (extension !== "jpeg" && extension !== "jpg") return;
-
-  let buffer = await fs.promises.readFile(filepath);
-
-  let width = sizeOf(buffer).width;
-
-  let res = await sharp(buffer)
-    .resize({ width: width > 1920 ? 1920 : width })
-    .jpeg({ quality: jpegQuality })
-    .toFile(outputname, { withMetadata: true })
+  res = await res
+    .withMetadata()
+    .toFile(file.outputPath, { withMetadata: true })
     .catch((err) => console.log(err));
+
+  eventEmitter.send("file-progress", {
+    filename: file.name_without_ext + file.original_ext.toLowerCase(),
+    type: "Image",
+    message: `Compressing image: ${file.name}`,
+    time: dayjs(),
+  });
 
   if (res) return true;
   else return false;

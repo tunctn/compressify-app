@@ -16,6 +16,8 @@ $footer-height: 36px;
 .app {
   max-height: 100vh;
   overflow: hidden;
+  min-width: 770px;
+  min-height: 720px;
 }
 
 body {
@@ -57,32 +59,44 @@ a,
 button {
   -webkit-app-region: no-drag !important;
 }
+
+.split {
+  display: flex;
+  flex-direction: row;
+}
+
+.gutter {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  -webkit-app-region: no-drag !important;
+}
+
+.gutter.gutter-horizontal {
+  cursor: col-resize;
+}
+.gutter.gutter-vertical {
+  cursor: row-resize;
+}
+
 .main-page {
   padding-top: 30px;
   display: flex;
-  gap: var(--container-padding);
   height: calc(100% - #{$footer-height});
   padding-bottom: 0;
 
   .left {
-    flex: 1;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-
     .files-and-folders {
       height: calc(100% - 252px);
     }
     .progress-area {
-      height: 240px;
     }
   }
   .right {
     height: 100%;
-    width: 280px;
 
     .settings {
       height: calc(100% - 56px);
+      margin-bottom: var(--container-padding);
     }
     .start {
       height: 44px;
@@ -92,7 +106,7 @@ button {
   .col {
     display: flex;
     flex-direction: column;
-    gap: var(--container-padding);
+    // gap: var(--container-padding);
   }
 }
 
@@ -128,6 +142,16 @@ button {
   position: absolute;
   width: max-content;
   transform: translate3d(-50%, -50%, 0);
+
+  &.tooltip-start {
+    transform: translate3d(0%, -50%, 0);
+  }
+  &.tooltip-end {
+    transform: translate3d(-100%, -50%, 0);
+  }
+  &.tooltip-important {
+    color: #cbcbcb;
+  }
 }
 
 :root {
@@ -175,7 +199,6 @@ button {
   display: block;
   position: absolute;
 
-  width: calc(100% - 2px);
   margin-top: -3px;
   margin-left: 1px;
   height: 2px;

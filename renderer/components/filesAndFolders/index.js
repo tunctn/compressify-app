@@ -24,7 +24,7 @@ const FilesAndFolders = ({ setFilePaths, filePaths }) => {
         break;
     }
 
-    const dialogPaths = await dialog
+    const userDialogPaths = await dialog
       .showOpenDialog({
         buttonLabel: `Add ${type}`,
         properties: properties,
@@ -40,7 +40,7 @@ const FilesAndFolders = ({ setFilePaths, filePaths }) => {
       .then((result) => result.filePaths)
       .catch(console.log);
 
-    const paths = getFilePaths(dialogPaths);
+    const paths = getFilePaths(userDialogPaths);
 
     let combined = [...filePaths, ...paths];
     let unique = [...new Set(combined)];

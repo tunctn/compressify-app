@@ -18,19 +18,17 @@
     "@supercharge/promise-pool": "^2.0.0",
     "@tippyjs/react": "^4.2.6",
     "buffer-image-size": "^0.6.4",
-    "cors": "^2.8.5",
     "dayjs": "^1.10.7",
     "dcraw": "^1.0.3",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.0.1",
-    "express": "^4.17.1",
     "handbrake-js": "^6.0.0",
     "npmlog": "^6.0.0",
     "npmlog-file": "^0.1.4",
+    "randomcolor": "^0.6.2",
+    "react-split": "^2.0.13",
     "sass": "^1.45.0",
-    "sharp": "^0.29.3",
-    "socket.io": "^4.4.0",
-    "socket.io-client": "^4.4.0"
+    "sharp": "^0.29.3"
   },
   "devDependencies": {
     "electron": "^15.0.0",

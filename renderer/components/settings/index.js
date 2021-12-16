@@ -64,14 +64,14 @@ const Settings = () => {
             </div>
 
             <div className={s.checks}>
-              <div className={s.check}>
+              <div className={s.check} data-disabled="true">
                 <Checkmark
                   label="Deal with duplicate files"
                   name={SETTINGS.OUTPUT.DEAL_WITH_DUPLICATE.NAME}
                   defaultValue={SETTINGS.OUTPUT.DEAL_WITH_DUPLICATE.DEFAULT}
                 />
               </div>
-              <div className={s.check}>
+              <div className={s.check} data-disabled="true">
                 <Checkmark
                   label="Delete logs after finished"
                   name={SETTINGS.OUTPUT.DELETE_LOGS_AFTER_FINISHED.NAME}
@@ -108,6 +108,30 @@ const Settings = () => {
                 </div>
               );
             })}
+
+            <div className={s.setting}>
+              <div className={s.label}>Resize</div>
+              <div className={s.val}>
+                <Checkmark
+                  label=""
+                  name={SETTINGS.IMAGE.RESIZE.ENABLED.NAME}
+                  defaultValue={SETTINGS.IMAGE.RESIZE.ENABLED.DEFAULT}
+                />
+              </div>
+            </div>
+
+            <div className={s.setting}>
+              <div className={s.label}>Resize max width</div>
+              <div className={s.val}>
+                <QualitySetter
+                  item={SETTINGS.IMAGE.RESIZE.MAX_WIDTH}
+                  qualityLabel="Default max width: %j pixels"
+                  max={7680}
+                  disableHoldPress={true}
+                  preSteps={[360, 480, 720, 1366, 1920, 2560, 3840, 7680]}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -122,18 +146,42 @@ const Settings = () => {
             />
           </div>
           <div className={s.settings}>
-            <div className={s.setting}>
+            {/* <div className={s.setting}>
               <div className={s.label}>RAW quality</div>
               <div className={s.val}>
                 <QualitySetter item={SETTINGS.RAW.QUALITY} />
               </div>
-            </div>
+            </div> */}
             <div className={s.setting}>
               <div className={s.label}>Convert to</div>
               <div className={s.val}>
                 <Options
                   item={SETTINGS.RAW.CONVERT_TO}
                   options={SETTINGS.RAW.CONVERT_TO.OPTIONS}
+                />
+              </div>
+            </div>
+
+            <div className={s.setting}>
+              <div className={s.label}>Resize</div>
+              <div className={s.val}>
+                <Checkmark
+                  label=""
+                  name={SETTINGS.RAW.RESIZE.ENABLED.NAME}
+                  defaultValue={SETTINGS.RAW.RESIZE.ENABLED.DEFAULT}
+                />
+              </div>
+            </div>
+
+            <div className={s.setting}>
+              <div className={s.label}>Resize max width</div>
+              <div className={s.val}>
+                <QualitySetter
+                  item={SETTINGS.RAW.RESIZE.MAX_WIDTH}
+                  qualityLabel="Default max width: %j pixels"
+                  max={7680}
+                  disableHoldPress={true}
+                  preSteps={[360, 480, 720, 1366, 1920, 2560, 3840, 7680]}
                 />
               </div>
             </div>
@@ -158,9 +206,28 @@ const Settings = () => {
                   item={SETTINGS.VIDEO.BITRATE}
                   unlimited
                   min={0}
+                  steps={100}
+                  fastSteps={10}
                 />
               </div>
             </div>
+            <div className={s.setting}>
+              <div className={s.label}>Quality</div>
+              <div className={s.val}>
+                <QualitySetter item={SETTINGS.VIDEO.QUALITY} />
+              </div>
+            </div>
+
+            <div className={s.setting}>
+              <div className={s.label}>Preset</div>
+              <div className={s.val}>
+                <Options
+                  item={SETTINGS.VIDEO.PRESET}
+                  options={SETTINGS.VIDEO.PRESET.OPTIONS}
+                />
+              </div>
+            </div>
+
             <div className={s.setting}>
               <div className={s.label}>Convert</div>
               <div className={s.val}>

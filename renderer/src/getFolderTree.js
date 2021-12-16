@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 // import path from "path";
 
+import { VALID_EXTENSIONS } from "../../main/config";
+
 function arrangeIntoTree(branches) {
   // Adapted from http://brandonclapp.com/arranging-an-array-of-flat-paths-into-a-json-tree-like-structure/
   let tree = [];
@@ -37,15 +39,18 @@ function arrangeIntoTree(branches) {
           ? "folder"
           : path.extname(originalpath).toLowerCase();
 
+        let isValid = VALID_EXTENSIONS.includes(type.replace(".", ""));
+
         realIndex = realIndex + 1;
 
         let newPart = {
           name: part,
           path: originalpath,
-          type: type,
+          type,
           level: j,
           index: realIndex,
-          size: size,
+          size,
+          isValid,
           children: [],
         };
 
@@ -99,10 +104,13 @@ const findGrandParent = (array) => {
 const getFolderTree = (array) => {
   if (array.length === 0) return { baselevel: 0, tree: [] };
 
-  array = array.map((path) => {
-    let slice = path.split("/");
-    return [...slice];
-  });
+  array = array
+    .map((file) => {
+      let slice = file.split("/");
+      return [...slice];
+    })
+
+    .filter((file) => file);
 
   let tree = arrangeIntoTree(array);
 

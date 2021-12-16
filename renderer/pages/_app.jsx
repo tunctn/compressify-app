@@ -1,12 +1,11 @@
 import "../styles/globals.scss";
-// import { SocketContext, socket } from "../context/socket";
+
+import dayjs from "dayjs";
+let customParseFormat = require("dayjs/plugin/customParseFormat");
+dayjs.extend(customParseFormat);
 
 function MyApp({ Component, pageProps }) {
-  return (
-    // <SocketContext.Provider value={socket}>
-    <Component {...pageProps} />
-    // </SocketContext.Provider>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default MyApp;

@@ -80,6 +80,7 @@
     }
   }
 }
+
 .area {
   margin-top: 3px;
   border-radius: 5px;
@@ -133,5 +134,10 @@
 .checks {
   .check {
     margin-top: 6px;
+
+    &[data-disabled="true"] {
+      pointer-events: none;
+      opacity: 0.3;
+    }
   }
 }
