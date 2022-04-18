@@ -4,6 +4,10 @@ import path from "path";
 import { VALID_TYPES } from "../config";
 import { getSettings } from "./compress";
 
+const replaceAll = (str, find, replace) => {
+  return str.replace(new RegExp(find, "g"), replace);
+};
+
 const acceptFiles = (filePaths, basePath) => {
   const settings = getSettings();
 
@@ -61,8 +65,16 @@ const acceptFiles = (filePaths, basePath) => {
         // remove last back slash from string
         .slice(0, -1);
 
-      let outputDir = `${settings.outputDir}/${fileDir ? fileDir + "/" : ""}`;
-      let outputPath = `${outputDir}${name_without_ext}.${ext}`;
+      let outputDir = replaceAll(
+        `${settings.outputDir}/${fileDir ? fileDir + "/" : ""}`,
+        " ",
+        ""
+      );
+      let outputPath = replaceAll(
+        `${outputDir}${name_without_ext}.${ext}`,
+        " ",
+        ""
+      );
 
       return {
         original_path: file,
@@ -72,8 +84,8 @@ const acceptFiles = (filePaths, basePath) => {
         ext,
         mediaType,
         fileDir,
-        outputPath,
-        outputDir,
+        outputPath: outputPath.replaceAll(" ", ""),
+        outputDir: outputDir.replaceAll(" ", ""),
       };
     })
     .filter((file) => file);

@@ -8,11 +8,11 @@ const getDuration = (seconds) => {
   let minutes, hours;
   if (seconds < 60) return `${seconds} second${seconds > 0 ? "s" : ""}`;
   if (seconds < 60 * 60) {
-    minutes = seconds / 60;
+    minutes = Math.floor(seconds / 60);
     return `${minutes} minute${minutes > 0 ? "s" : ""}`;
   }
   if (minutes < 60 * 60) {
-    hours = hours / 60;
+    hours = Math.floor(hours / 60);
     let str = `${hours} hour${hours > 0 ? "s" : ""}`;
     if (minutes > 0) {
       str = str + ` and ${minutes} minute${minutes > 0 ? "s" : ""}`;

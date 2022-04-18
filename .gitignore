@@ -22,6 +22,8 @@ dist
 
 *.hidden.*
 logs/
+app/
+.vscode/
 
 # nyc test coverage
 .nyc_output

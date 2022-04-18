@@ -146,12 +146,12 @@ const Settings = () => {
             />
           </div>
           <div className={s.settings}>
-            {/* <div className={s.setting}>
+            <div className={s.setting}>
               <div className={s.label}>RAW quality</div>
               <div className={s.val}>
                 <QualitySetter item={SETTINGS.RAW.QUALITY} />
               </div>
-            </div> */}
+            </div>
             <div className={s.setting}>
               <div className={s.label}>Convert to</div>
               <div className={s.val}>

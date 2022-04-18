@@ -67,10 +67,10 @@ const startCompressing = async (event, filePaths = []) => {
     fs.mkdirSync(settings.outputDir);
   }
 
-  const { results, errors } = await PromisePool.withConcurrency(5)
+  const { results, errors } = await PromisePool.withConcurrency(10)
     .for(files)
     .handleError(async (error, file) => {
-      log.warn(error);
+      log.warn(error, `NAME=${file.name} - PATH=${file.original_path}`);
       if (stop) {
         console.log("stopped");
         throw error;
@@ -88,7 +88,7 @@ const startCompressing = async (event, filePaths = []) => {
       } else if (file.mediaType === "video") {
         await compressVideo(file, eventEmitter);
       } else if (file.mediaType === "raw") {
-        await compressRaw(file, eventEmitter);
+        await compressRaw(file, eventEmitter, log);
       } else {
         log.warn("mediatype", "invalid media type: %j", file.mediaType);
       }
