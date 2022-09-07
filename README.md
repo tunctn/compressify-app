@@ -7,12 +7,16 @@ The code is probably unstable, not battle-tested, actually not tested at all- ex
 I mean you can try to build it and use it, or even you can try use it in dev mode. I cant remember whether it was working on Windows or not, if you can get it working just let me know.
 
 
-Windows build
-npm uninstall sharp
-npm install --platform=win32 --arch-x64 sharp
-npm run build:win64
-
 MacOS build
+```js
 npm uninstall sharp
 npm install --platform=darwin --arch-x64 sharp
 npm run build:mac
+```
+
+Windows build
+```js
+npm uninstall sharp
+npm install --platform=win32 --arch-x64 sharp
+npm run build:win64
+```
