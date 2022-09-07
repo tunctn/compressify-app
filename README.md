@@ -11,6 +11,7 @@ I mean you can try to build it and use it, or even you can try use it in dev mod
 
 MacOS build
 ```js
+npm install
 npm uninstall sharp
 npm install --platform=darwin --arch-x64 sharp
 npm run build:mac
@@ -18,7 +19,10 @@ npm run build:mac
 
 Windows build
 ```js
+npm install
 npm uninstall sharp
 npm install --platform=win32 --arch-x64 sharp
 npm run build:win64
 ```
+
+(Yes I know,the build commands are stupid.)
